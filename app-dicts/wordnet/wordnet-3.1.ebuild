@@ -8,7 +8,7 @@ inherit autotools eutils flag-o-matic
 DESCRIPTION="A lexical database for the English language"
 HOMEPAGE="http://wordnet.princeton.edu/"
 SRC_URI="
-	http://wordnetcode.princeton.edu/3.1/WordNet-3.1.tar.gz
+	http://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.gz
 	http://wordnetcode.princeton.edu/wn${PV}.dict.tar.gz
 	mirror://gentoo/wordnet-3.0-patchset-1.tar.bz2"
 LICENSE="Princeton"
