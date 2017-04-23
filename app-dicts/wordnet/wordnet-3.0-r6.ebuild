@@ -27,7 +27,7 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/WordNet-${PV}"
 
-PATCHES=(
+PATCHES1=(
 	# Don't install into PREFIX/dict but PREFIX/share/wordnet/dict
 	"${WORKDIR}/${P}-dict-location.patch"
 	# Fixes bug 130024, make an additional shared lib
@@ -35,7 +35,6 @@ PATCHES=(
 	# Don't install the docs directly into PREFIX/doc but PREFIX/doc/PN
 	"${WORKDIR}/${P}-docs-path.patch"
 	"${WORKDIR}"/${P}-CVE-2008-3908.patch #211491
-	"${WORKDIR}"/${P}-CVE-2008-2149.patch #211491
 
 	"${FILESDIR}"/${P}-tcl8.6.patch
 	"${FILESDIR}"/${P}-format-security.patch
@@ -43,8 +42,13 @@ PATCHES=(
 	"${FILESDIR}"/${P}-fix-indexing-bug-314799.patch
 )
 
+PATCHES0=(	
+	"${WORKDIR}"/${P}-CVE-2008-2149.patch #211491
+)
+
 src_prepare() {
-	epatch "${PATCHES[@]}"
+	eapply -p1 "${PATCHES1[@]}"
+	eapply -p0 "${PATCHES0[@]}"
 	eapply_user
 
 	# Don't install all the extra docs (html, pdf, ps) without doc USE flag.
@@ -59,7 +63,6 @@ src_prepare() {
 
 	rm -f configure || die
 	eautoreconf
-	MAKEOPTS+=" -e"
 }
 
 src_configure() {
@@ -75,11 +78,13 @@ src_configure() {
 		--with-tk="${EPREFIX}"/usr/$(get_libdir)
 }
 
-pkg_preinst(){
-	# For clarification, WN is still on  version 3.0. Only the database files 
+src_install(){
+	# For clarification, WN is still on  version 3.0. Only the database files
 	# have been updated to 3.1 as a package for 3.1 does not currently exist.
-	rm -r "${D}"/usr/share/wordnet/dict
-	mv "${WORKDIR}"/dict "${D}"/usr/share/wordnet
+	emake -e DESTDIR="${D}" install
+	einstalldocs
+	rm -r "${D}/usr/share/wordnet/dict" || die
+	mv "${WORKDIR}/dict" "${D}/usr/share/wordnet" || die
 }
 
 pkg_postinst(){
