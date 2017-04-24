@@ -78,6 +78,10 @@ src_configure() {
 		--with-tk="${EPREFIX}"/usr/$(get_libdir)
 }
 
+src_compile(){
+	emake -e || die "emake failed"
+}
+
 src_install(){
 	# For clarification, WN is still on  version 3.0. Only the database files
 	# have been updated to 3.1 as a package for 3.1 does not currently exist.
