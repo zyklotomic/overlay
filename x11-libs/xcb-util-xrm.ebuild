@@ -3,24 +3,29 @@
 
 EAPI=6
 
+inherit git-r3
+
 DESCRIPTION="XCB utility functions for the X resource manager"
 HOMEPAGE="https://github.com/Airblader/xcb-util-xrm"
-SRC_URI=""
+EGIT_REPO_URI="git://github.com/Airblader/xcb-util-xrm"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
-DEPEND="xcb-util"
+DEPEND="x11-libs/xcb-util"
 RDEPEND="${DEPEND}"
 
-src_compile() {
-	cd xcb-util-xrm-$pkgver
-	./configure --prefix=/usr
-	make
+src_configure() {
+	cd "util-xrm"
+	git submodule update --init
+	./autogen.sh --prefix=/usr
 }
 
-src_install() {
+src_compile()
 
+src_install() {
+	cd "util-xrm"
+	emake DESTDIR="${D}"
+	dodoc COPYING
 }
