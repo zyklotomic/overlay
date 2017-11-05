@@ -9,10 +9,10 @@ DESCRIPTION="A fast floating WM written over the XCB library and derived from mc
 HOMEPAGE="https://github.com/venam/2bwm"
 EGIT_REPO_URI="https://github.com/venam/2bwm"
 
-LICENSE="ICS"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="savedconfig"
+LICENSE="ISC"
 
 DEPEND="x11-libs/xcb-util
 	x11-libs/xcb-util-xrm
